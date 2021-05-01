@@ -35,17 +35,19 @@ Temposaurus is a CLI application which is controlled via environment variables.
 
 Temposaurus recognises the following environmental variables.
 
-Mandatory:
+| Mandatory | |
+|-------------------|-----------------------------------------|
+| `JIRA_EMAIL`      | Email address you use to login to Tempo |
+| `ATLASSIAN_TOKEN`	| Jira Cloud API access token |
+| `TEMPO_TOKEN`	    | Tempo API access token |
+| `DATE_FROM`       | Start date |
 
-* `JIRA_EMAIL`       Email address you use to login to Tempo
-* `ATLASSIAN_TOKEN`	 Jira Cloud API access token
-* `TEMPO_TOKEN`	     Tempo API access token
-* `DATE_FROM`        Start date
+&nbsp;
 
-Optional:
-
-* `DATE_TO`          Finish date. The default value is the current date.
-* `HTTP_TIMEOUT`     REST API client timeout in seconds. The default value is `30` seconds.
+| Optional | |
+|----------------|-----------------------------------------------------|
+| `DATE_TO`      | Finish date. The default value is the current date. |
+| `HTTP_TIMEOUT` | REST API client timeout in seconds. The default value is `30` seconds. |
 
 The dates do not have to fall on the accounting period boundary as the correct boundaries will be computed, inclusive of both `FROM` and `TO` dates. The date format is `yyyy-mm-dd`, such as `2020-10-27`.
 
@@ -75,9 +77,11 @@ Beware that your current (unapproved) timesheet may skew the result greatly, so 
 
 To avoid frustration the following are the rules of engagement for Temposaurus.
 
-* Issues: please read the [It doesn't work](https://00f.net/2021/03/26/it-doesnt-work/) essay before submitting an issue.
-* PRs: please raise an issue to discuss first.
-* Forks: yes, please, as much as you'd like.
+| :shipit: | | 
+|--------|-----------------------------------------------------------------------------------------------------------------|
+| Issues | Please read the [It doesn't work](https://00f.net/2021/03/26/it-doesnt-work/) essay before submitting an issue. |
+| PRs    | Please raise an issue to discuss first. |
+| Forks  | Yes, please, as much as you'd like. |
 
 ## License
 

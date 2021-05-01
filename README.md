@@ -1,16 +1,10 @@
 # Temposaurus
 
-Temposaurus computes the running total of overtime in Atlassian Tempo.
-
-## Terminology 
-
-* [Tempo](https://www.tempo.io/) is the embedded time tracking tool for Jira.
-* [Jira](https://www.atlassian.com/software/jira) is the issue and project tracking software.
-* Both Jira and Tempo are made by [Atlassian](https://www.atlassian.com/).
+Temposaurus computes the running total of overtime from the data pulled from [Tempo](https://www.tempo.io/), the embedded time tracking tool for [Jira](https://www.atlassian.com/software/jira).
 
 ## Getting started
 
-Temposaurus uses two Atlassian REST APIs:
+Temposaurus uses two REST APIs:
 
 * [Jira Cloud v3](https://developer.atlassian.com/cloud/jira/platform/rest/v3/intro/)
 * [Tempo v3](https://apidocs.tempo.io/)

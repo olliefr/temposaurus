@@ -62,10 +62,24 @@ DATE_TO=2021-04-25
 
 Beware that your current (unapproved) timesheet may skew the result greatly, so choose the `DATE_TO` value wisely.
 
+## Docker image
+
+The Docker image is available from the Docker Hub: [olliefr/temposaurus](https://hub.docker.com/r/olliefr/temposaurus).
+
+This is how I use it:
+
+```bash
+docker pull olliefr/temposaurus
+```
+
+```bash
+sudo docker container run --rm -it -e JIRA_EMAIL=ofrolovs@verifa.io -e ATLASSIAN_TOKEN=$(cat ~/.tokens/atlassian) -e TEMPO_TOKEN=$(cat ~/.tokens/tempo) -e DATE_FROM=2021-04-12 olliefr/temposaurus
+```
+
 ## TODO
 
-* Releases
-* Docker image
+* GitHub Releases
+* Docker image built via goreleaser or Docker Hub Actions
 
 ## Contributing
 

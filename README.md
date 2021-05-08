@@ -40,6 +40,7 @@ Temposaurus recognises the following environmental variables.
 
 | Optional | |
 |----------------|-----------------------------------------------------|
+| `JIRA_DOMAIN`  | Your company's subdomain at `.atlassian.com`. Defaults to the first subdomain of your email address. That is the email address `ofrolovs@verifa.io` defaults to `verifa`.   |
 | `DATE_TO`      | Finish date. The default value is the current date. |
 | `HTTP_TIMEOUT` | REST API client timeout in seconds. The default value is `30` seconds. |
 
@@ -54,7 +55,7 @@ JIRA_EMAIL=ofrolovs@verifa.io \
 TEMPO_TOKEN=$(cat ~/.tempo_secret) \
 ATLASSIAN_TOKEN=$(cat ~/.atlassian_secret) \
 DATE_FROM=2020-10-01 \
-DATE_TO=2021-04-25
+DATE_TO=2021-04-25 \
 ./temposaurus
 ```
 

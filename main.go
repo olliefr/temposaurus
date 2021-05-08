@@ -8,12 +8,14 @@ import (
 	"net/url"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 )
 
 // Shared configuration ("global")
 type TemposaurusEnv struct {
 	JIRAEmail      string
+	JIRADomain     string
 	AtlassianToken string
 	TempoToken     string
 	Timeout        time.Duration
@@ -95,6 +97,15 @@ func main() {
 		env.Timeout = time.Second * time.Duration(i)
 	}
 
+	env.JIRADomain = os.Getenv("JIRA_DOMAIN")
+	if env.JIRADomain == "" {
+		subdom, err := JIRADomainFrom(env.JIRAEmail)
+		if err != nil {
+			log.Fatalln("could not extract the JIRA subdomain from your email address. Consider setting JIRA_DOMAIN manually.")
+		}
+		env.JIRADomain = subdom
+	}
+
 	// TODO put Atlassian user ID acquisition into a separate function
 	myself := Myself{}
 	{
@@ -103,7 +114,10 @@ func main() {
 		// https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-myself/#api-rest-api-3-myself-get
 
 		// Set-up an HTTP request to satisfy the API end-point requirements
-		const urlAtlassianUserID = "https://verifa.atlassian.net/rest/api/3/myself"
+		const urlTemplateAtlassianUserID = "https://{}.atlassian.net/rest/api/3/myself"
+
+		urlAtlassianUserID := strings.Replace(urlTemplateAtlassianUserID, "{}", env.JIRADomain, 1)
+
 		req, err := http.NewRequest(http.MethodGet, urlAtlassianUserID, nil)
 		if err != nil {
 			log.Fatalln("Failed to create a new HTTP request to the Atlassian API `Myself` end-point:", err)
@@ -291,4 +305,27 @@ func ReadTimesheetApprovalFor(env TemposaurusEnv, user Myself, p Period) (Timesh
 // as defined by Go standard library function (Duration) String.
 func SecondsToHumanReadableFormat(s int) string {
 	return (time.Duration(s) * time.Second).String()
+}
+
+// JIRADomainFrom extracts the leftmost subdomain from an email address.
+// The email address is assumed to be of the simplest form, such as
+// totoro@example.com or oh.totoro@example.co.uk. For more complex cases,
+// the user should set JIRA_DOMAIN directly.
+func JIRADomainFrom(email string) (string, error) {
+
+	at := strings.LastIndex(email, "@")
+	if at < 0 {
+		return "", fmt.Errorf("could not find '@' in the email address")
+	}
+
+	components := strings.Split(email, "@")
+	if len(components) == 1 {
+		return "", fmt.Errorf("could not find '@' in the email address")
+	}
+	if len(components) > 2 {
+		return "", fmt.Errorf("the email addresses with multiple '@' are not supported: %d", len(components))
+	}
+
+	subdomains := strings.Split(components[1], ".")
+	return subdomains[0], nil
 }
